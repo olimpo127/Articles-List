@@ -3,13 +3,25 @@
     <h1 class="title">Top 10 artículos de esta semana</h1>
     <input v-model="searchInput" placeholder="Búsqueda por título" class="search" />
     <ul>
-      <li v-for="article in filteredArticles" :key="article.id" class="article">
-        <h2>{{ article.title }}</h2>
+      <!-- Usando la función filteredArticles, se genera una lista de los artículos,
+         filtrados por título en search, y estos son los que se muestran en la página -->
+      <li v-for="article in filteredArticles" :key="article.id" class="article"> 
+  
+         <!-- A través de la key "article.id", se trae el title y body del artículo según su id -->
+        <h2>{{ article.title }}</h2> 
         <p>{{ article.body }}</p>
+
+        <!-- A través de la función toggleDetails, se causa trigger a la
+          acción toggleDetailsForArticle definida en nuestra store de Pinia "articleStore", lo cual
+        finalmente hace que se muestre u oculte el detalle del artículo respectivo -->
         <button @click="toggleDetails(article)" class="detailsButton">Ver más detalles</button>
+
+        <!-- Un texto usado como detalle, que solo diferencia entre uno y otro por el id del artículo-->
         <p>{{ getArticleDetailsStatusMessage(article.id) }}</p>
       </li>
     </ul>
+    <!-- Template de la paginación simple, que usa la función changePage para sumar o restar 1 a la numeración 
+    de currentPage -->
     <div class="pagination">
       <button @click="changePage(-1)" :disabled="currentPage === 1">Anterior</button>
       <span class="currentPage">{{ currentPage }}</span>
