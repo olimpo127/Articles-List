@@ -10,6 +10,11 @@
         <p>{{ getArticleDetailsStatusMessage(article.id) }}</p>
       </li>
     </ul>
+    <div class="pagination">
+      <button @click="changePage(-1)" :disabled="currentPage === 1">Anterior</button>
+      <span class="currentPage">{{ currentPage }}</span>
+      <button @click="changePage(1)" :disabled="currentPage === Math.ceil(articles.length / articlesPerPage)">Siguiente</button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +30,8 @@ export default defineComponent({
     return {
       articles: [] as Article[],
       searchInput: '',
+      currentPage: 1,
+      articlesPerPage: 5,
     };
   },
   created() {
@@ -33,9 +40,11 @@ export default defineComponent({
   computed: {
     filteredArticles(): Article[] {
       const searchTerm = this.searchInput.toLowerCase();
-      return this.articles.filter((article: Article) =>
-        article.title.toLowerCase().includes(searchTerm)
-      );
+      const startIndex = (this.currentPage - 1) * this.articlesPerPage;
+      const endIndex = startIndex + this.articlesPerPage;
+      return this.articles
+        .filter((article: Article) => article.title.toLowerCase().includes(searchTerm))
+        .slice(startIndex, endIndex);
     },
   },
   methods: {
@@ -55,6 +64,9 @@ export default defineComponent({
     getArticleDetailsStatusMessage(articleId: number) {
       const isDetailsVisible = useArticleStore().showDetailsForArticle(articleId);
       return isDetailsVisible ? `Estos son los detalles del artículo ${articleId}, y este es un texto adicional que estoy agregando para que el artículo tenga un diseño más ordenado y se vea un poco mejor. Último spam innecesario.` : '';
+    },
+    changePage(pageChange: number) {
+      this.currentPage += pageChange;
     },
   },
 });
