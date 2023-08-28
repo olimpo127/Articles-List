@@ -36,6 +36,10 @@ npm run serve # o yarn serve
 
 4. Accede a la aplicación en tu navegador en `http://localhost:8080` o como se indique en la terminal.
 
+5. Si intenta abrir el proyecto con Gitpod, y los pasos anteriores por alguna razón no funcionan, por favor usar los comandos:
+   npm install -g serve
+   serve -s dist
+
 ## Uso
 1. Al abrir la aplicación, verás una lista de los 10 primeros artículos obtenidos de la API https://jsonplaceholder.typicode.com/posts.
 2. Utiliza el campo de búsqueda en la parte superior para filtrar artículos por título.
